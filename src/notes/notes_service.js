@@ -16,13 +16,15 @@ const NotesService = {
         return db('notes')
             .insert(newNote)
             .returning('*')
-            .then(([note]) => note)
+            .then(rows => {
+                return rows[0]
+            })
     },
 
     deleteNote(db, note_id) {
         return db
             .from('notes')
-            .where('id', note_id)
+            .where('note_id', note_id)
             .delete()
     },
 

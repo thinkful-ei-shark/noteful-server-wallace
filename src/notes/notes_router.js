@@ -1,9 +1,20 @@
 const express = require("express");
 const path = require("path");
+const xss = require("xss");
+const FoldersService = require("../folders/folders_service");
 const NotesService = require("./notes_service");
+
 
 const notesRouter = express.Router();
 const jsonBodyParser = express.json();
+
+// sanitizing method in service
+const serializeNote = note => ({
+    note_id: note.note_id,
+    name: xss(note.name),
+    content: xss(note.content),
+    folder_id: note.folder_id
+})
 
 notesRouter
     .route("/")
@@ -29,20 +40,43 @@ notesRouter
                 res
                     .status(201)
                     .location(path.posix.join(req.originalUrl, `/${note.note_id}`))
-                    .json(NotesService.serializeNote(note));
+                    .json(serializeNote(note));
             })
             .catch(next);
     });
 
 notesRouter
-    .route("/:note_id")
-    .get((req, res, next) => {
-        NotesService.getFoldersNotes(req.app.get('db'), req.params.folder_id)
-            .then(note => {
-                res.json(notes.map(NotesService.serializeNote(note)))
+    .route("/:folder_id")
+    .all((req, res, next) => {
+        FoldersService.getById(
+            req.app.get('db'),
+            req.params.folder_id
+        )
+            .then(folder => {
+                if (!folder) {
+                    return res.status(404).json({
+                        error: { message: 'Folder does Not Exist!' }
+                    })
+                }
+                res.folder = folder
+                next()
             })
             .catch(next)
     })
+    .get((req, res, next) => {
+        NotesService.getFoldersNotes(
+            req.app.get('db'),
+            req.params.folder_id
+        )
+            .then(notes => {
+                res.json(notes.map(serializeNote))
+            })
+            .catch(next)
+    })
+
+
+notesRouter
+    .route("/:note_id")
     .delete((req, res, next) => {
         NotesService.deleteNote(req.app.get("db"), req.params.note_id)
             .then(() => {
