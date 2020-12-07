@@ -5,6 +5,13 @@ const NotesService = {
         return db('notes')
     },
 
+    getFoldersNotes(db, folder_id) {
+        return db
+            .from('notes')
+            .select('*')
+            .where('folder_id', folder_id)
+    },
+
     insertNewNote(db, newNote) {
         return db('notes')
             .insert(newNote)
@@ -26,7 +33,7 @@ const NotesService = {
     // sanitizing method in service
     serializeNote(note) {
         return {
-            id: String(note.id),
+            id: String(note.note_id),
             name: xss(note.name),
             content: xss(note.content),
             folder_id: String(note.folder_id)

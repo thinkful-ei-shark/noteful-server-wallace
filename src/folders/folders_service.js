@@ -10,8 +10,11 @@ const FoldersService = {
     insertNewFolder(db, newFolder) {
         return db
             .insert(newFolder)
+            .into('folders')
             .returning('*')
-            .then(([folder]) => folder)
+            .then(rows => {
+                return rows[0]
+            })
     },
 
     serializeFolders(folders) {
@@ -20,7 +23,7 @@ const FoldersService = {
 
     serializeFolder(folder) {
         return {
-            id: String(folder.id),
+            id: String(folder.folder_id),
             name: xss(folder.name)
         }
     }

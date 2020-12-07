@@ -28,7 +28,7 @@ notesRouter
             .then(note => {
                 res
                     .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${note.id}`))
+                    .location(path.posix.join(req.originalUrl, `/${note.note_id}`))
                     .json(NotesService.serializeNote(note));
             })
             .catch(next);
@@ -36,6 +36,13 @@ notesRouter
 
 notesRouter
     .route("/:note_id")
+    .get((req, res, next) => {
+        NotesService.getFoldersNotes(req.app.get('db'), req.params.folder_id)
+            .then(note => {
+                res.json(notes.map(NotesService.serializeNote(note)))
+            })
+            .catch(next)
+    })
     .delete((req, res, next) => {
         NotesService.deleteNote(req.app.get("db"), req.params.note_id)
             .then(() => {

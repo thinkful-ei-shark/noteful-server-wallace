@@ -6,3 +6,6 @@ VALUES
     (2, 'Dumb Folder'),
     (3, 'Smart Stuff'),
     (4, 'Ethereum');
+
+  
+SELECT setval('folders_folder_id_seq', 4, true);

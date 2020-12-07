@@ -14,3 +14,5 @@ VALUES
     (10, 'NHL hockey', 'get paid to fight on skates', 1),
     (11, 'Mac', 'Apple product', 3),
     (12, 'Dumb note', 'This not is dumb', 2);
+
+SELECT setval('notes_note_id_seq', 12, true);
