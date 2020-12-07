@@ -30,16 +30,6 @@ const NotesService = {
 
     serializeNotes(notes) {
         return notes.map(this.serializeNote)
-    },
-
-    // sanitizing method in service
-    serializeNote(note) {
-        return {
-            id: String(note.note_id),
-            name: xss(note.name),
-            content: xss(note.content),
-            folder_id: String(note.folder_id)
-        }
     }
 }
 

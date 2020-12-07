@@ -31,7 +31,7 @@ const FoldersService = {
 
     serializeFolder(folder) {
         return {
-            id: String(folder.folder_id),
+            folder_id: String(folder.folder_id),
             name: xss(folder.name)
         }
     }
