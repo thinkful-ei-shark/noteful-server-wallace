@@ -1,6 +1,8 @@
-INSERT INTO folders (folder_id, folder_name, folder_number)
+TRUNCATE folders RESTART IDENTITY cascade;
+
+INSERT INTO folders (folder_id, name)
 VALUES
-    (1, 'Cool Folder', 1)
-    (2, 'Dumb Folder', 2),
-    (3, 'Smart Stuff', 3),
-    (4, 'Ethereum', 4);
+    (1, 'Cool Folder'),
+    (2, 'Dumb Folder'),
+    (3, 'Smart Stuff'),
+    (4, 'Ethereum');
