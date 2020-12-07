@@ -2,11 +2,11 @@ const xss = require('xss')
 
 const NotesService = {
     getAllNotes(db) {
-        return db('noteful_notes')
+        return db('notes')
     },
 
     insertNewNote(db, newNote) {
-        return db('noteful_notes')
+        return db('notes')
             .insert(newNote)
             .returning('*')
             .then(([note]) => note)
@@ -14,7 +14,7 @@ const NotesService = {
 
     deleteNote(db, note_id) {
         return db
-            .from('noteful_notes')
+            .from('notes')
             .where('id', note_id)
             .delete()
     },
@@ -23,13 +23,13 @@ const NotesService = {
         return notes.map(this.serializeNote)
     },
 
+    // sanitizing method in service
     serializeNote(note) {
         return {
             id: String(note.id),
             name: xss(note.name),
-            modified: note.modified,
             content: xss(note.content),
-            folderId: String(note.folder_id)
+            folder_id: String(note.folder_id)
         }
     }
 }

@@ -2,11 +2,11 @@ const xss = require('xss')
 
 const FoldersService = {
     getAllFolders(db) {
-        return db('noteful_folders')
+        return db('folders')
     },
 
     insertNewFolder(db, newFolder) {
-        return db('noteful_folders')
+        return db('folders')
             .insert(newFolder)
             .returning('*')
             .then(([folder]) => folder)
