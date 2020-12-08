@@ -16,6 +16,12 @@ const morganOption = (NODE_ENV === 'production')
     ? 'tiny'
     : 'common';
 
+const corsOptions = {
+    origin: true,
+    credentials: true
+}
+app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
+
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
