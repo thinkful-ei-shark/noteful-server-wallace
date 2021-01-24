@@ -24,17 +24,6 @@ const FoldersService = {
                 return rows[0]
             })
     },
-
-    serializeFolders(folders) {
-        return folders.map(this.serializeFolder)
-    },
-
-    serializeFolder(folder) {
-        return {
-            folder_id: String(folder.folder_id),
-            name: xss(folder.name)
-        }
-    }
 }
 
 module.exports = FoldersService
