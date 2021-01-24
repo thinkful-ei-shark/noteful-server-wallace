@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require('path');
+const xss = require("xss");
 const FoldersService = require("./folders_service");
 
 const foldersRouter = express.Router();
@@ -14,9 +15,7 @@ foldersRouter
     .route("/")
     .get((req, res, next) => {
         FoldersService.getAllFolders(req.app.get("db"))
-            .then(folders => {
-                res.json(folders.map(serializeFolder))
-            })
+            .then(folders => res.json(folders.map(serializeFolder)))
             .catch(next);
     })
     .post(jsonBodyParser, (req, res, next) => {
