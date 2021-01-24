@@ -1,6 +1,6 @@
 TRUNCATE notes RESTART IDENTITY cascade;
 
-INSERT INTO notes (id, title, content, date_created)
+INSERT INTO notes (id, title, content, date)
 VALUES
     (1, 'Note Title', 'A really cool note', '2021-01-01'),
     (2, 'Worms', 'Crawly', '2021-01-01'),
@@ -15,4 +15,4 @@ VALUES
     (11, 'Mac', 'Apple product', '2021-01-01'),
     (12, 'Dumb note', 'This not is dumb', '2021-01-01');
 
-SELECT setval('notes_note_id_seq', 12, true);
+SELECT setval('notes_id_seq', 12, true);
