@@ -1,6 +1,6 @@
 TRUNCATE folders RESTART IDENTITY cascade;
 
-INSERT INTO folders (folder_id, name)
+INSERT INTO folders (id, name)
 VALUES
     (1, 'Cool Folder'),
     (2, 'Dumb Folder'),
@@ -8,4 +8,4 @@ VALUES
     (4, 'Ethereum');
 
   
-SELECT setval('folders_folder_id_seq', 4, true);
+SELECT setval('folders_id_seq', 4, true);
