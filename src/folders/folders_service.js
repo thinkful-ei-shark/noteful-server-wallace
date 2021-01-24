@@ -11,7 +11,7 @@ const FoldersService = {
         return db
             .from('folders')
             .select('*')
-            .where('folder_id', id)
+            .where('id', id)
             .first()
     },
 
@@ -23,6 +23,20 @@ const FoldersService = {
             .then(rows => {
                 return rows[0]
             })
+    },
+
+    deleteFolder(db, id) {
+        return db
+            .from("folders")
+            .where("id", id)
+            .delete();
+    },
+
+    updatefolder(db, id, folder) {
+        return db
+            .from("folders")
+            .where("id", id)
+            .update(folder);
     },
 }
 

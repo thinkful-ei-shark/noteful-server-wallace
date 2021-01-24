@@ -40,4 +40,50 @@ foldersRouter
             .catch(next)
     })
 
+foldersRouter
+    .route("/:folder_id")
+    .all((req, res, next) => {
+        const { folder_id } = req.params;
+        FoldersService
+            .getById(req.app.get("db"), folder_id)
+            .then(folder => {
+                if (!folder) {
+                    return res
+                        .status(404)
+                        .json({ error: { message: "folder not found" } });
+                }
+                res.folder = folder;
+                next();
+            })
+            .catch(next);
+    })
+    .get((req, res, next) => {
+        const folder = res.folder;
+        res.json(serializeFolder(folder));
+    })
+    .delete((req, res, next) => {
+        const { folder_id } = req.params;
+        FoldersService
+            .deleteFolder(req.app.get("db"), folder_id)
+            .then(() => {
+                res.status(204).end();
+            })
+            .catch(next);
+    })
+    .patch(jsonBodyParser, (req, res, next) => {
+        const folderUpdates = req.body;
+
+        if (Object.keys(folderUpdates).length == 0) {
+            return res.status(400).json({
+                error: { message: `patch request must supply values` },
+            });
+        }
+        FoldersService
+            .updatefolder(req.app.get("db"), res.folder.id, folderUpdates)
+            .then((updatedfolder) => {
+                res.status(204).end();
+            });
+    });
+
+
 module.exports = foldersRouter;
