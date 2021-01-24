@@ -27,12 +27,15 @@ foldersRouter
             })
         }
 
-        FoldersService.insertNewFolder(req.app.get('db'), { name })
+        const newFolder = {
+            name: xss(name)
+        }
+        FoldersService.insertNewFolder(req.app.get('db'), newFolder)
             .then(folder => {
                 res
                     .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${folder.folder_id}`))
-                    .json(FoldersService.serializeFolder(folder))
+                    .location(path.posix.join(req.originalUrl, `/${folder.id}`))
+                    .json((folder))
             })
             .catch(next)
     })
