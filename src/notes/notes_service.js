@@ -5,6 +5,10 @@ const NotesService = {
         return db('notes')
     },
 
+    getNoteById(db, id) {
+        return db.from("notes").where("id", id).first();
+    },
+
     getFoldersNotes(db, folder_id) {
         return db
             .from('notes')
@@ -21,11 +25,15 @@ const NotesService = {
             })
     },
 
-    deleteNote(db, note_id) {
+    deleteNote(db, id) {
         return db
             .from('notes')
-            .where('note_id', note_id)
+            .where('id', id)
             .delete()
+    },
+
+    updateNote(db, id, note) {
+        return db.from("notes").where("id", id).update(note);
     },
 
     serializeNotes(notes) {
